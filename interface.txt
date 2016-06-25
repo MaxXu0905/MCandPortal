@@ -1,0 +1,503 @@
+获取所有请求
+url:/wx/schoolQueue/getAllReqQueue
+data:
+result:
+{
+    "code":"0",
+    "message":"",
+    "data":[
+        {
+            "beginTime":1400903137434,
+            "usedTime":18366,
+            "sessionId":"8249BE2B3543DD087097AFADB02A1342",
+            "url":"http://localhost:8080/CandPortal/ch/js/improveInfo.min.js"
+        },
+        {
+            "beginTime":1400903137430,
+            "usedTime":18370,
+            "sessionId":"8249BE2B3543DD087097AFADB02A1342",
+            "url":"http://localhost:8080/CandPortal/page/appframework.min.js"
+        }
+    ]
+}
+================================
+删除所有请求
+url:wx/schoolQueue/delAllReqQueue
+data:
+result
+{"code":"0","message":"","data":{"code":"SUCCESS"}}
+======================================
+删除某一个请求
+url:wx/schoolQueue/delFromReqQueue
+data:
+{"sessionId":"F20EE4C8CBC50B1DFB208FD5BBEBE1D5","url":"http://localhost:8080/CandPortal/page/appframework.min.js"}
+result
+{"code":"0","message":"","data":{"code":"SUCCESS"}}
+======================================
+//获取队列最大时间
+url: wx/schoolQueue/getMaxWaitTime
+data:
+result:
+   {"code":"0","message":"","data":10}
+==================================
+更新队列最大时间
+url: wx/schoolQueue/updateMaxWaitTime/{maxWaitTime}
+data:
+result:{"code":"0","message":"","data":{"code":"SUCCESS"}}
+=================================
+url: wx/schoolQueue/getMaxWaitNumber
+data:
+result:
+   {"code":"0","message":"","data":30}
+===========================================
+url: wx/schoolQueue/updateMaxWaitNumber/{maxWaitNumber}
+data:
+result: {"code":"0","message":"","data":{"code":"SUCCESS"}}
+================================================
+
+1. 根据口令获取活动id
+url : wx/schoolInfo/getActivityId/{companyWeixinId}
+data : {"passcode":"beiyou"}
+result: 
+       {
+           "code":"0",
+	        "message":"",
+	        "data" :{
+	              "activityId" : 100
+	        }
+       }
+-----------------------------------------------
+url: wx/schoolLogin/{weixinId}/{activityId}
+data:
+result  {
+           "code":"0",
+	        "message":""
+       }
+----------------------------------------------------------
+1.  应聘者获取常规信息(根据考生微信号以及公司微信id)
+    url: wx/schoolInfo/getInput
+    data: 无
+    result:
+				{
+				    "code":"0",
+				    "message":"",
+				    "data":[
+				        {
+				            "infoId":"FULL_NAME",
+				            "infoName":"姓名",
+				            "valueLength":30,
+				            "verifyExp":"",
+				            "valueType":"label",
+				            "value":"panyl"
+				        },
+				        {
+				            "infoId":"EMAIL",
+				            "infoName":"邮箱",
+				            "valueLength":100,
+				            "verifyExp":"",
+				            "valueType":"label",
+				            "value":"panyl@asiainfo-linkage.com"
+				        },
+                 {
+				            "infoId":"EMAIL",
+				            "infoName":"电话",
+				            "valueLength":100,
+				            "verifyExp":"",
+				            "valueType":"label",
+				            "value":"panyl@asiainfo-linkage.com"
+				        },
+
+				        {
+				            "infoId":"SEX",
+				            "infoName":"性别",
+				            "valueLength":2,
+				            "verifyExp":"*",
+				            "valueType":"select",
+				            "range":[
+				                {
+				                    "key":"2",
+				                    "value":"男"
+				                },
+				                {
+				                    "key":"1",
+				                    "value":"女"
+				                }
+				            ],
+				            "value":"2"
+				        },
+				        {
+				            "infoId":"GRADUATE_COLLEGE",
+				            "infoName":"毕业院校",
+				            "valueLength":30,
+				            "verifyExp":"*",
+				            "valueType":"query",
+				            "range":[
+				            ],
+				            "value":"北京交通大学",
+				            "realValue":"北京交通大学"
+				        },
+				        {
+				            "infoId":"EDUCATION",
+				            "infoName":"学历",
+				            "valueLength":2,
+				            "verifyExp":"*",
+				            "valueType":"select",
+				            "range":[
+				                {
+				                    "key":"1",
+				                    "value":"本科"
+				                },
+				                {
+				                    "key":"2",
+				                    "value":"硕士"
+				                },
+				                {
+				                    "key":"3",
+				                    "value":"博士"
+				                },
+				                {
+				                    "key":"4",
+				                    "value":"大专"
+				                },
+				                {
+				                    "key":"5",
+				                    "value":"其他"
+				                }
+				            ],
+				            "value":"2"
+				        },
+				        {
+				            "infoId":"POSTGRADUATE_APPLIED",
+				            "infoName":"是否报考研究生",
+				            "valueLength":2,
+				            "verifyExp":"*",
+				            "valueType":"select",
+				            "range":[
+				                {
+				                    "key":"0",
+				                    "value":"否"
+				                },
+				                {
+				                    "key":"1",
+				                    "value":"是"
+				                }
+				            ],
+				            "value":"2"
+				        }
+				    ]
+				}
+=========================================
+2 应聘者保存基本信息，只有姓名邮箱
+ url: wx/schoolInfo/commitBasicInfo/{companyWeixinId}
+ data: 
+ [
+    {
+        "id":{
+            "infoId":"FULL_NAME"
+        },
+        "value":"panyl",
+        "realValue":"panyl"
+    },
+    {
+        "id":{
+            "infoId":"EMAIL"
+        },
+        "value":"panyl@asiainfo-linkage.com",
+        "realValue":"panyl@asiainfo-linkage.com"
+    }
+]
+result:
+	 {
+	 "code":"0",
+	 "message":"",
+	  data{
+	       pageState:"30"//  30   正常跳转， 跳转到 weixinapp/improveInfo
+	                         31   上次正在答题，跳转到/wx/weixinapp/startPaper 
+	                         32   已经提交试卷，需要跳转到wx/weixinapp/handInPaper;
+	                        
+	   }
+	 }	 
+=======================================
+2 应聘者保存常规信息
+ url: wx/schoolInfo/commitInfo
+ data: 
+ [
+    {
+        "id":{
+            "infoId":"FULL_NAME"
+        },
+        "value":"panyl",
+        "realValue":"panyl"
+    },
+    {
+        "id":{
+            "infoId":"EMAIL"
+        },
+        "value":"panyl@asiainfo-linkage.com",
+        "realValue":"panyl@asiainfo-linkage.com"
+    },
+    {
+        "id":{
+            "infoId":"GRADUATE_COLLEGE"
+        },
+        "value":"北京交通大学",
+        "realValue":"北京交通大学"
+    },
+    {
+        "id":{
+            "infoId":"SEX"
+        },
+        "value":"2",
+        "realValue" :"男"
+    }
+]
+
+result:
+	 {"code":"0","message":""}	 
+================================
+url: /sets/wx/schoolPosition/getActivities/{employerId}  例子： http://localhost:8080/EmplPortal/sets/wx/schoolPosition/updateActivityStatus/100000004
+data: 无
+result
+ {
+  "code": "0",
+  "data": [
+    {
+      "activityId": 1,
+      "activityName": "亚联2014春季校招-北邮",
+      "companyId": 2,
+      "employerId": 100000004,
+      "passcode": "beiyou",
+      "activityDate": 1397491200000,
+      "beginTime": "14:00",
+      "endTime": "16:00",
+      "testState": 2,
+      "address": "北京邮电大学",
+      "addressDetail": "第5教学楼101教室",
+      "city": "北京市",
+      "seatNumber": 500,
+      "positionId": 6,
+      "paperTime": 3600,
+      "timerType": "part"
+    },
+    {
+      "activityId": 2,
+      "activityName": "亚联2014春季校招-南邮",
+      "companyId": 2,
+      "employerId": 100000004,
+      "passcode": "nanyou",
+      "activityDate": 1397750400000,
+      "beginTime": "14:00",
+      "endTime": "16:00",
+      "testState": 2,
+      "address": "南京邮电大学(三牌楼校区)",
+      "addressDetail": "第5教学楼101教室",
+      "city": "南京市",
+      "seatNumber": 300,
+      "positionId": 6,
+      "paperTime": 3600,
+      "timerType": "part"
+    }
+  ]
+}
+3.  招聘者启动考试/停止考试
+url:  sets/wx/schoolPosition/updateActivityStatus/{activityId}/{testState}
+data: 无
+result:  {"code":"0","message":""}
+==========================================================
+获取答题统计信息
+url: sets/wx/sets/wx/schoolPosition/getActivityCount/{activityId}
+data:无
+result : 
+
+    {
+       "code": "0",
+       "data":
+       {
+           "totalJoinNum": 23,  //总参与人数
+           "totalAnsweringNum": 1,//正在答题数
+           "totalFinishedNum": 22//完成人数
+       }
+    }
+
+
+=====================================
+4. 应聘者查询是否可以考试
+	url:schoolInfo/isCanExam/
+	date: 无
+	result: {"code":"0","message":"",
+	data:
+	{
+	   state:0 //0未开始考试，1可以考试 2已经考试完毕
+	}
+}
+=========================================================
+5.  应聘者开始考试,后台包括生成试卷，然后返回试卷结构
+url: wx/schoolExam/generatePaper
+data: {""language":"java"} //输入口令以及选择考试语言
+result: 
+{
+    "code":"0",
+    "message":"",
+    "data":{
+        "timerType":"part",
+        "partDatas":[
+            {
+                "partSeq":1,
+                "partDesc":"选择题",
+                "suggestTime":3600,
+                "questionLength":50
+            }
+        ],
+        "skillCountInfos":[
+            {
+                "skillId":"001",
+                "skillName":"计算机基础",
+                "questionLength":20
+            },
+            {
+                "skillId":"100",
+                "skillName":"Java Core",
+                "questionLength":20
+            },
+            {
+                "skillId":"300",
+                "skillName":"数据库",
+                "questionLength":10
+            }
+        ],
+        "invitationId":39,
+        "passport":"nanyou"
+    }
+}
+==========================================
+6. 应聘者获取试卷结构（以及还原的信息）
+url:wx/schoolExam/getPaper
+data:无
+result: 
+{
+    "code":"0",
+    "message":"",
+    "data":{
+        "timerType" : "question";// "question"按题目计时，"part"按部分计时
+        "examInfo" : {//上次考试信息，用于还原
+				        "questionId":11111111101, //还原的题目信息
+				        "partSeq":"1", //还原的部分信息
+				        "timeLeft":100  //还原时如果此时间小于等于0需要进入下面一部分
+        }
+        "partDatas":[
+            {
+                "partSeq":1,
+                "partDesc":"选择题",
+                "suggestTime":120,
+                "questionIds":[
+                    {
+                        "questionId":107040090000004,
+                        "answered":1,
+                        "marked":1,
+                        "suggestTime":30
+                    },
+                    {
+                        "questionId":107040080000034,
+                        "answered":1,
+                        "marked":1,
+                        "suggestTime":30
+                    },
+                    {
+                        "questionId":107040099000032,
+                        "answered":1,
+                        "marked":1,
+                        "suggestTime":30
+                    },
+                    {
+                        "questionId":107040020000031,
+                        "answered":1,
+                        "suggestTime":30
+                    }
+                ],
+                "questionLength":4
+            }
+        ]
+    }
+}
+=========================================
+7.  应聘者开始试卷考试
+url: wx/schoolExam/startPaper
+data:无
+result: 
+{
+    "code":"0",
+    "message":"",
+}
+=====================================================
+8。 应聘者开始部分考试 ---每一部分开始考试需要调用此接口
+url: wx/schoolExam/startPaperPart/{partSeq}
+data:无
+{"code":"0","message":"","data":{"code":"SUCCESS"}}
+==========================================
+9。 应聘者考试，提交答案，答题时间/获取题目信息
+url: wx/schoolExam/commitAnswerOrGetNext
+data： {
+    "question_id":107043009000005, //获取的下一题
+    "partSeq":1,
+    "answer":{                     //当前题答案
+        "id":107040000000057,
+        "answerTime":12,
+        "choice":"AC"
+    }
+}
+
+result： {
+    "code":"0",
+    "data":{
+        "errorCode":0,
+        "qbName":"MySql",
+        "mode":"sql",
+        "title":"储蓄所有多个储户，储户在多个储蓄所存取款，储蓄所与储户之间是：",
+        "category":1,
+        "type":1,
+        "options":[
+            "一对一的联系",
+            "一对多的联系",
+            "多对多的联系",
+            "多对一的联系",
+             "XXXXXXX"
+        ]
+    }
+}
+=====================================
+
+10. 提交试卷部分 --每一部分完成需要提交部分
+url： schoolExam/handInPaperPart/{partSeq}
+data：无
+result:{"code":"0","message":"","data":{"code":"SUCCESS"}}
+
+======================================
+11. 提交试卷
+url: wx/schoolExam/handInPaper
+data: 无
+result: {"code":"0","message":""}
+========================================
+
+======================================
+12. 使用passport查询测评
+url: wx/schoolInfo/getPositionByPassport/{passport}
+data: 无
+result:
+{
+code: "0",
+message: "",
+data: "XYULiOe1Vp"
+}
+
+======================================
+13.使用活动id获取校招测评信息
+url: wx/schoolInfo/getPositionByAId/{activityId}
+data: 无
+result:
+{
+code: "0",
+message: "",
+data: {
+	"weixinCompany":"1"; //1.用公司微信号; 0-用百一微信号(默认)
+}
+}

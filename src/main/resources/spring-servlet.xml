@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/task
+        http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+	<task:annotation-driven />
+	<mvc:default-servlet-handler />
+	<!--1.启动springMVC注解功能 -->
+	<mvc:annotation-driven enable-matrix-variables="true">
+		<mvc:message-converters register-defaults="false">
+			<bean
+				class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+				<property name="objectMapper">
+					<bean class="com.fasterxml.jackson.databind.ObjectMapper">
+						<property name="serializationInclusion">
+							<value type="com.fasterxml.jackson.annotation.JsonInclude$Include">NON_NULL</value>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+	<!--2.自动扫描包 -->
+	<context:component-scan base-package="com.ailk.sets.*" />
+	<!--3.配置视图解析器ViewResolver -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+	<mvc:interceptors>
+		<!-- <mvc:interceptor> <mvc:mapping path="/regist/**" /> <bean class="com.ailk.sets.interceptor.LoginInterceptor" 
+			/> </mvc:interceptor> -->
+		<mvc:interceptor>
+			<mvc:mapping path="/wx/schoolLogin/**" />
+			<bean class="com.ailk.sets.interceptor.SchoolLoginInterceptor" />
+		</mvc:interceptor>
+		<!-- <mvc:interceptor> <mvc:mapping path="/**" /> <mvc:exclude-mapping 
+			path="/error" /> <mvc:exclude-mapping path="/wx/**" /> <mvc:exclude-mapping 
+			path="/snapShotsUpload" /> <mvc:exclude-mapping path="/uploadAbnormalSnapShot" 
+			/> <bean class="com.ailk.sets.interceptor.SessionInterceptor" /> </mvc:interceptor> -->
+		<mvc:interceptor>
+			<mvc:mapping path="/wx/**" />
+			<mvc:exclude-mapping path="/wx/getActivityId/**" />
+			<mvc:exclude-mapping path="/wx/clearSession**" />
+			<mvc:exclude-mapping path="/wx/weixinapp/directError" />
+			<mvc:exclude-mapping path="/wx/weixinapp/error" />
+			<mvc:exclude-mapping path="/wx/weixinapp/handInPaper" />
+			<mvc:exclude-mapping path="/wx/verificationInfo" />
+			<mvc:exclude-mapping path="/wx/index/**" />
+			<mvc:exclude-mapping path="/wx/getPositionByEntry/**" />
+			<mvc:exclude-mapping path="/wx/schoolQueue/**" />
+			<mvc:exclude-mapping path="/wx/weixinapp/simpleInfo/**" />
+			<mvc:exclude-mapping path="/wx/schoolInfo/commitBasicInfo/**" /> <!-- 保存信息才相当于登录 -->
+			<mvc:exclude-mapping path="/wx/schoolInfo/clearQueueInfo" />
+			<mvc:exclude-mapping path="/wx/schoolInfo/getPositionByPassport/**" />
+			<bean class="com.ailk.sets.interceptor.SchoolSessionInterceptor" />
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<mvc:exclude-mapping path="/**/*.js" />
+			<mvc:exclude-mapping path="/wx/schoolQueue/**" />
+			<mvc:exclude-mapping path="/wx/weixinapp/simpleInfo" />
+			<mvc:exclude-mapping path="/wx/schoolInfo/clearQueueInfo" />
+			<bean class="com.ailk.sets.interceptor.LogInterceptor" />
+		</mvc:interceptor>
+		<mvc:interceptor> <!-- 流量监控 -->
+			<mvc:mapping path="/**" />
+			<mvc:exclude-mapping path="/wx/schoolQueue/**" />
+			<mvc:exclude-mapping path="/wx/weixinapp/simpleInfo" />
+			<mvc:exclude-mapping path="/config/getTestPlan" />
+			<bean class="com.ailk.sets.interceptor.LargeJsInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
+</beans>  
